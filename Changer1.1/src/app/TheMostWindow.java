@@ -435,7 +435,7 @@ public class TheMostWindow {
 					typeOfprompts[counter].setForeground(Color.BLUE);
 
 				}
-
+//
 			}
 		};
 		thread1.start();
