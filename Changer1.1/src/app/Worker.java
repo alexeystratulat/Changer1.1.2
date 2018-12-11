@@ -16,6 +16,12 @@ public class Worker {
 	public static void main(String[] args) throws IOException {
 		
 		//
+		
+		if  (  !System.getProperty("os.name").contains("Windows")) {
+			   System.out.println(System.getProperty( "user.home" ) + File.separator + "charger1.1") ;
+			   mainProgramFolder = System.getProperty( "user.home" ) + File.separator + "charger1.1" ;
+			  }
+		
 		try {
 			resources = new Ini(new File(mainProgramFolder + "\\" + resFileName));
 		} catch (IOException e) {
