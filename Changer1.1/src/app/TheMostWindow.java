@@ -153,6 +153,12 @@ public class TheMostWindow {
 			forVariable3Distance2 += 100;
 			forVariable4Distance2 += 100;
 			forVariable5Distance2 += 100;
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		
 		}
@@ -434,7 +440,7 @@ public class TheMostWindow {
 		editButton[counter].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				wind = new WindowForEditing2(mainProgramFolder + "\\" + server.getServerName().toString(),
+				wind = new WindowForEditing2(listOfServers.get(counter),mainProgramFolder + "\\" + server.getServerName().toString(),
 						server.getServerName().toString(), resources, listName, resFileName, selectedItem,
 						listOfServers, mainProgramFolder);
 				wind.initialize();

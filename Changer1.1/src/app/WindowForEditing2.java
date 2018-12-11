@@ -53,9 +53,11 @@ public class WindowForEditing2 {
 	private int TotalRes = 0;
 	private int[] Rows = new int[1000];
 	private JLabel lblResult;
+	private Connect sengConfigFileToServ;
+	private Servers server;
 	
 
-	public WindowForEditing2(String pathToFile, String serverName,Ini resources, String listName, String resFileName, String selectedItem,
+	public WindowForEditing2(Servers server,String pathToFile, String serverName,Ini resources, String listName, String resFileName, String selectedItem,
 			ArrayList<Servers> listOfServers, String mainProgramFolder) {
 		this.pathToFile = pathToFile;		
 		this.serverName = serverName;
@@ -65,6 +67,7 @@ public class WindowForEditing2 {
 		this.selectedItem = selectedItem;
 		this.mainProgramFolder = mainProgramFolder;
 		this.listOfServers = listOfServers;
+		this.server = server;
 		System.out.println(pathToFile + "\\" + resources.get("path", "nameOfConfigFile").toString());
 	}
 
@@ -133,8 +136,15 @@ public class WindowForEditing2 {
 		btnApply.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				saveToFile();
+				
+			
+				
+				
+				
+				
+				
 			}
-		});
+		}); 
 		
 		btnApply.setBounds(662, 655, 112, 23);
 		frame.getContentPane().add(btnApply);
@@ -265,12 +275,20 @@ public class WindowForEditing2 {
 			fw = new FileWriter(path);
 			bw = new BufferedWriter(fw);
 			bw.write(content);
+			
+			
+			
+			
 		}  catch(Exception e1){
 			System.out.println(e1);
 		} finally {
 			try {
 				bw.close();
 				fw.close();
+				sengConfigFileToServ = new Connect(server, resources.get("auth", "Username"),
+				resources.get("auth", "Password"), mainProgramFolder, resources);
+
+				sengConfigFileToServ.setConfigFile();
 				btnApply.setEnabled(false);
 			} 
 			catch (IOException e1) {

@@ -215,5 +215,43 @@ System.out.println(resources.get("path", "pathForConfigFile"));
 		}
 		return done;
 	}
+	
+	
+	public String setConfigFile() {
+
+		String done = "connected";
+		String error = "connection error!";
+		try {
+
+			System.out.println("Connecting to server: " + "username= " + username + " server= " + server.getIpAdress()
+					+ " password= " + password);
+
+			JSch jsch = new JSch();
+			Session session = jsch.getSession(username, server.getIpAdress(), port);
+			session.setPassword(password);
+			session.setConfig("StrictHostKeyChecking", " no");
+			System.out.println(server.getIpAdress().toString() + " Establishing Connection...");
+			session.connect();
+			System.out.println(server.getIpAdress().toString() + " Connection established.");
+
+			ChannelSftp sftpChannel = (ChannelSftp) session.openChannel("sftp");
+			sftpChannel.connect();
+			System.out.println(server.getIpAdress().toString() + " SFTP Channel created.");
+			//
+System.out.println(mainProgramFolder + "\\" + server.getServerName().toString()+ "\\" + resources.get("path", "nameOfConfigFile"));
+System.out.println(resources.get("path", "pathForConfigFile"));
+
+			sftpChannel.put(mainProgramFolder + "\\" + server.getServerName().toString()+ "\\" + resources.get("path", "nameOfConfigFile"), resources.get("path", "pathForConfigFile"));
+
+			sftpChannel.disconnect();
+			session.disconnect();
+
+		} catch (Exception e) {
+			return error;
+		}
+		return done;
+	}
+	
+	
 
 }
