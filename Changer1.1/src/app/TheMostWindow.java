@@ -201,7 +201,7 @@ public class TheMostWindow {
 
 				frame.setVisible(false);
 				try {
-					Thread.sleep(500);
+					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -238,7 +238,7 @@ public class TheMostWindow {
 
 				frame.setVisible(false);
 				try {
-					Thread.sleep(500);
+					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -275,7 +275,7 @@ public class TheMostWindow {
 
 				frame.setVisible(false);
 				try {
-					Thread.sleep(500);
+					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -377,6 +377,14 @@ public class TheMostWindow {
 
 		Thread thread1 = new Thread() {
 			public void run() {
+				
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 
 				System.out.println("CheckConnection = " + server.getIpAdress().toString());
 				ckeckConnection = new Connect(server, resources.get("auth", "Username"),
@@ -392,7 +400,16 @@ public class TheMostWindow {
 					edit = new Editor(mainProgramFolder + "\\" + server.getServerName().toString(), resources,
 							server.getIpAdress().toString());
 					typeOfprompts[counter].setText(edit.compareFiles().toString());
-					
+					variables1[counter]
+							.setText(edit.toShowVariables(counter, resources.get("variables", "variable1").toString()));
+					variables2[counter]
+							.setText(edit.toShowVariables(counter, resources.get("variables", "variable2").toString()));
+					variables3[counter]
+							.setText(edit.toShowVariables(counter, resources.get("variables", "variable3").toString()));
+					variables4[counter]
+							.setText(edit.toShowVariables(counter, resources.get("variables", "variable4").toString()));
+					variables5[counter]
+							.setText(edit.toShowVariables(counter, resources.get("variables", "variable5").toString()));
 					
 //
 					servStatus = new RestartingServ(listOfServers.get(counter), resources.get("auth", "Username"),resources.get("auth", "Password"), mainProgramFolder, resources);
@@ -414,16 +431,7 @@ public class TheMostWindow {
 					
 					//
 
-					variables1[counter]
-							.setText(edit.toShowVariables(counter, resources.get("variables", "variable1").toString()));
-					variables2[counter]
-							.setText(edit.toShowVariables(counter, resources.get("variables", "variable2").toString()));
-					variables3[counter]
-							.setText(edit.toShowVariables(counter, resources.get("variables", "variable3").toString()));
-					variables4[counter]
-							.setText(edit.toShowVariables(counter, resources.get("variables", "variable4").toString()));
-					variables5[counter]
-							.setText(edit.toShowVariables(counter, resources.get("variables", "variable5").toString()));
+					
 
 				}
 

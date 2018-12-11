@@ -167,6 +167,9 @@ System.out.println(resources.get("automated", "variable3"));
 	}
 
 	public String toShowVariables(int counter, String key) {
+		
+		
+		
 		try {
 			showingVariables = new Ini(
 					new File(pathToFile + "\\" + resources.get("path", "nameOfConfigFile").toString()));
@@ -184,7 +187,13 @@ System.out.println(resources.get("automated", "variable3"));
 
 			for (String optionKey : section.keySet()) {
 				if (optionKey.toString().equals(key)) {
+					
+					System.out.println(pathToFile + "\\" + resources.get("path", "nameOfConfigFile").toString()+"                    "+ key + section.get(optionKey) );
 					return optionKey.toString() + " = " + section.get(optionKey);
+					
+					
+					
+					
 				}
 
 			}

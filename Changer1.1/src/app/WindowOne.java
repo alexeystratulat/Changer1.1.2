@@ -28,7 +28,7 @@ public class WindowOne {
 	private Ini resources;
 	private String resFileName;
 	private String selectedItem;
-	private String versionOfApp = "1.1.2";
+	private String versionOfApp = "1.1.3";
 	ArrayList<Servers> listOfServers;
 	Parser pars;
 
