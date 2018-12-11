@@ -49,6 +49,9 @@ public class TheMostWindow {
 	private JLabel[] variables4 = new JLabel[10];
 	private JLabel[] variables5 = new JLabel[10];
 
+	
+	private Editor[] editorArr = new Editor[10];
+
 	public TheMostWindow(Ini resources, String listName, String resFileName, String selectedItem,
 			ArrayList<Servers> listOfServers, String mainProgramFolder) {
 		this.resources = resources;
@@ -137,7 +140,7 @@ public class TheMostWindow {
 		forVariable5Distance2 = 121;
 
 		for (int counter = 0; counter < listOfServers.size(); counter++) {
-
+			
 			showServers(listOfServers.get(counter), counter, ForCheckboxDistance2, forLableIPDistance2,
 					forConnectionDistance2, forTypeOfPromptsDistance2, forEditButtonDistance2, forVariable1Distance2,
 					forVariable2Distance2, forVariable3Distance2, forVariable4Distance2, forVariable5Distance2);
@@ -374,12 +377,15 @@ public class TheMostWindow {
 		frame.getContentPane().add(lblconnecton[counter]);
 		frame.getContentPane().add(typeOfprompts[counter]);
 		System.out.println("======" + server.getIpAdress().toString());
-
+		
+		
+		
+		
 		Thread thread1 = new Thread() {
 			public void run() {
 				
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(1200);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -397,9 +403,11 @@ public class TheMostWindow {
 					switchToManualButton.setEnabled(true);
 					restartButton.setEnabled(true);
 
-					edit = new Editor(mainProgramFolder + "\\" + server.getServerName().toString(), resources,
+					editorArr[counter] = new Editor(mainProgramFolder + "\\" + server.getServerName().toString(), resources,
+									server.getIpAdress().toString());
+					typeOfprompts[counter].setText(editorArr[counter].compareFiles().toString());
+					/* edit = new Editor(mainProgramFolder + "\\" + server.getServerName().toString(), resources,
 							server.getIpAdress().toString());
-					typeOfprompts[counter].setText(edit.compareFiles().toString());
 					variables1[counter]
 							.setText(edit.toShowVariables(counter, resources.get("variables", "variable1").toString()));
 					variables2[counter]
@@ -410,6 +418,24 @@ public class TheMostWindow {
 							.setText(edit.toShowVariables(counter, resources.get("variables", "variable4").toString()));
 					variables5[counter]
 							.setText(edit.toShowVariables(counter, resources.get("variables", "variable5").toString()));
+					*/
+					
+					
+					
+					
+					variables1[counter]
+							.setText(editorArr[counter].toShowVariables(counter, resources.get("variables", "variable1").toString()));
+					variables2[counter]
+							.setText(editorArr[counter].toShowVariables(counter, resources.get("variables", "variable2").toString()));
+					variables3[counter]
+							.setText(editorArr[counter].toShowVariables(counter, resources.get("variables", "variable3").toString()));
+					variables4[counter]
+							.setText(editorArr[counter].toShowVariables(counter, resources.get("variables", "variable4").toString()));
+					variables5[counter]
+							.setText(editorArr[counter].toShowVariables(counter, resources.get("variables", "variable5").toString()));
+					
+					
+					
 					
 //
 					servStatus = new RestartingServ(listOfServers.get(counter), resources.get("auth", "Username"),resources.get("auth", "Password"), mainProgramFolder, resources);
