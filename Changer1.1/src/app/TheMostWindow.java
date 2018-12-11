@@ -22,7 +22,7 @@ public class TheMostWindow {
 	private Connect ckeckConnection;
 	private Connect toChangePrompts;
 	private RestartingServ restartingSer;
-	private RestartingServ servStatus,servStatus2;
+	private RestartingServ servStatus, servStatus2;
 	private Editor edit;
 	private WindowForEditing2 wind;
 	private int ForCheckboxDistance2, forLableIPDistance2, forConnectionDistance2, forTypeOfPromptsDistance2,
@@ -49,7 +49,6 @@ public class TheMostWindow {
 	private JLabel[] variables4 = new JLabel[10];
 	private JLabel[] variables5 = new JLabel[10];
 
-	
 	private Editor[] editorArr = new Editor[10];
 
 	public TheMostWindow(Ini resources, String listName, String resFileName, String selectedItem,
@@ -140,7 +139,7 @@ public class TheMostWindow {
 		forVariable5Distance2 = 121;
 
 		for (int counter = 0; counter < listOfServers.size(); counter++) {
-			
+
 			showServers(listOfServers.get(counter), counter, ForCheckboxDistance2, forLableIPDistance2,
 					forConnectionDistance2, forTypeOfPromptsDistance2, forEditButtonDistance2, forVariable1Distance2,
 					forVariable2Distance2, forVariable3Distance2, forVariable4Distance2, forVariable5Distance2);
@@ -155,13 +154,7 @@ public class TheMostWindow {
 			forVariable4Distance2 += 100;
 			forVariable5Distance2 += 100;
 
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
+		
 		}
 
 		JButton button = new JButton("<< Back");
@@ -178,10 +171,6 @@ public class TheMostWindow {
 		});
 		button.setBounds(685, 655, 89, 23);
 		frame.getContentPane().add(button);
-		
-	
-		
-		
 
 		frame.setVisible(true);
 
@@ -203,12 +192,7 @@ public class TheMostWindow {
 				}
 
 				frame.setVisible(false);
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				
 
 				TheMostWindow most = new TheMostWindow(resources, listName, resFileName, selectedItem, listOfServers,
 						mainProgramFolder);
@@ -258,8 +242,7 @@ public class TheMostWindow {
 		switchToAutomationButton.setBounds(385, 655, 170, 23);
 		switchToAutomationButton.setEnabled(false);
 		frame.getContentPane().add(switchToAutomationButton);
-		
-		
+
 		restartButton = new JButton("restart");
 		restartButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -268,7 +251,9 @@ public class TheMostWindow {
 
 					if (CheckBoxes[counter].isSelected() == true) {
 
-						restartingSer = new RestartingServ(listOfServers.get(counter), resources.get("auth", "Username"),resources.get("auth", "Password"), mainProgramFolder, resources);
+						restartingSer = new RestartingServ(listOfServers.get(counter),
+								resources.get("auth", "Username"), resources.get("auth", "Password"), mainProgramFolder,
+								resources);
 
 						restartingSer.restarting();
 
@@ -295,8 +280,6 @@ public class TheMostWindow {
 		restartButton.setBounds(585, 655, 80, 23);
 		restartButton.setEnabled(false);
 		frame.getContentPane().add(restartButton);
-		
-		
 
 	}
 
@@ -333,9 +316,9 @@ public class TheMostWindow {
 		nameForStatusServer2[counter] = new JLabel(resources.get("nameOfServ", "name2"));
 		nameForStatusServer2[counter].setBounds(140, ForCheckboxDistance2, 50, 23);
 		statusServer1[counter] = new JLabel("");
-		statusServer1[counter].setBounds(190,  forLableIPDistance2, 97, 14);
+		statusServer1[counter].setBounds(190, forLableIPDistance2, 97, 14);
 		statusServer2[counter] = new JLabel("");
-		statusServer2[counter].setBounds(190,  ForCheckboxDistance2, 97, 23);
+		statusServer2[counter].setBounds(190, ForCheckboxDistance2, 97, 23);
 
 		variables1[counter] = new JLabel("");
 		variables1[counter].setBounds(290, forVariable1Distance2, 450, 12);
@@ -377,19 +360,10 @@ public class TheMostWindow {
 		frame.getContentPane().add(lblconnecton[counter]);
 		frame.getContentPane().add(typeOfprompts[counter]);
 		System.out.println("======" + server.getIpAdress().toString());
-		
-		
-		
-		
+
 		Thread thread1 = new Thread() {
 			public void run() {
-				
-				try {
-					Thread.sleep(1200);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+
 				
 
 				System.out.println("CheckConnection = " + server.getIpAdress().toString());
@@ -403,61 +377,42 @@ public class TheMostWindow {
 					switchToManualButton.setEnabled(true);
 					restartButton.setEnabled(true);
 
-					editorArr[counter] = new Editor(mainProgramFolder + "\\" + server.getServerName().toString(), resources,
-									server.getIpAdress().toString());
+					editorArr[counter] = new Editor(mainProgramFolder + "\\" + server.getServerName().toString(),
+							resources, server.getIpAdress().toString());
 					typeOfprompts[counter].setText(editorArr[counter].compareFiles().toString());
-					/* edit = new Editor(mainProgramFolder + "\\" + server.getServerName().toString(), resources,
-							server.getIpAdress().toString());
-					variables1[counter]
-							.setText(edit.toShowVariables(counter, resources.get("variables", "variable1").toString()));
-					variables2[counter]
-							.setText(edit.toShowVariables(counter, resources.get("variables", "variable2").toString()));
-					variables3[counter]
-							.setText(edit.toShowVariables(counter, resources.get("variables", "variable3").toString()));
-					variables4[counter]
-							.setText(edit.toShowVariables(counter, resources.get("variables", "variable4").toString()));
-					variables5[counter]
-							.setText(edit.toShowVariables(counter, resources.get("variables", "variable5").toString()));
-					*/
-					
-					
-					
-					
-					variables1[counter]
-							.setText(editorArr[counter].toShowVariables(counter, resources.get("variables", "variable1").toString()));
-					variables2[counter]
-							.setText(editorArr[counter].toShowVariables(counter, resources.get("variables", "variable2").toString()));
-					variables3[counter]
-							.setText(editorArr[counter].toShowVariables(counter, resources.get("variables", "variable3").toString()));
-					variables4[counter]
-							.setText(editorArr[counter].toShowVariables(counter, resources.get("variables", "variable4").toString()));
-					variables5[counter]
-							.setText(editorArr[counter].toShowVariables(counter, resources.get("variables", "variable5").toString()));
-					
-					
-					
-					
-//
-					servStatus = new RestartingServ(listOfServers.get(counter), resources.get("auth", "Username"),resources.get("auth", "Password"), mainProgramFolder, resources);
+
+					variables1[counter].setText(editorArr[counter].toShowVariables(counter,
+							resources.get("variables", "variable1").toString()));
+					variables2[counter].setText(editorArr[counter].toShowVariables(counter,
+							resources.get("variables", "variable2").toString()));
+					variables3[counter].setText(editorArr[counter].toShowVariables(counter,
+							resources.get("variables", "variable3").toString()));
+					variables4[counter].setText(editorArr[counter].toShowVariables(counter,
+							resources.get("variables", "variable4").toString()));
+					variables5[counter].setText(editorArr[counter].toShowVariables(counter,
+							resources.get("variables", "variable5").toString()));
+
+					//
+					servStatus = new RestartingServ(listOfServers.get(counter), resources.get("auth", "Username"),
+							resources.get("auth", "Password"), mainProgramFolder, resources);
 
 					statusServer1[counter].setText(servStatus.status().toString());
 					if (statusServer1[counter].getText().toString().equals("STOPPED")) {
-						statusServer1[counter].setForeground(new Color(255, 84, 84));	
-						
-						}else statusServer1[counter].setForeground(new Color(26, 142, 11));
-					
-					
-					
-					servStatus2 = new RestartingServ(listOfServers.get(counter), resources.get("auth", "Username"),resources.get("auth", "Password"), mainProgramFolder, resources);
+						statusServer1[counter].setForeground(new Color(255, 84, 84));
+
+					} else
+						statusServer1[counter].setForeground(new Color(26, 142, 11));
+
+					servStatus2 = new RestartingServ(listOfServers.get(counter), resources.get("auth", "Username"),
+							resources.get("auth", "Password"), mainProgramFolder, resources);
 					statusServer2[counter].setText(servStatus2.status2().toString());
 					if (statusServer2[counter].getText().toString().equals("STOPPED")) {
-						statusServer2[counter].setForeground(new Color(255, 84, 84));	
-						
-						}else statusServer2[counter].setForeground(new Color(26, 142, 11));
-					
-					//
+						statusServer2[counter].setForeground(new Color(255, 84, 84));
 
-					
+					} else
+						statusServer2[counter].setForeground(new Color(26, 142, 11));
+
+					//
 
 				}
 
@@ -469,7 +424,7 @@ public class TheMostWindow {
 					typeOfprompts[counter].setForeground(Color.BLUE);
 
 				}
-//
+				//
 			}
 		};
 		thread1.start();
