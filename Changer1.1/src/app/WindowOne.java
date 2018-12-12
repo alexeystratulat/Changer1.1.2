@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 
 import org.ini4j.Ini;
@@ -32,35 +33,32 @@ public class WindowOne {
 	ArrayList<Servers> listOfServers;
 	Parser pars;
 
-	
 	public WindowOne(Ini resources, String listName, String resFileName, String mainProgramFolder) {
 		this.resources = resources;
 		this.listName = listName;
 		this.resFileName = resFileName;
 		this.mainProgramFolder = mainProgramFolder;
-		//System.out.println(resources.get("auth", "Username").toString());
-		
-		
-		System.out.println(resources + " " + listName + " "+ resFileName+ " "+ mainProgramFolder );
-		
+		// System.out.println(resources.get("auth", "Username").toString());
+
+		System.out.println(resources + " " + listName + " " + resFileName + " " + mainProgramFolder);
+
 		pars = new Parser(mainProgramFolder, listName);
 
 		CreatingDirectory dirToDelete = new CreatingDirectory(mainProgramFolder);
 		dirToDelete.deletingDir();
-		
-		
+
 	}
 
 	public void initialize() {
 
 		frmChangePrompts = new JFrame();
-		frmChangePrompts.setTitle("version " +versionOfApp);
+		frmChangePrompts.setTitle("version " + versionOfApp);
 		frmChangePrompts.setBounds(100, 100, 392, 550);
 		frmChangePrompts.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmChangePrompts.getContentPane().setLayout(null);
 		frmChangePrompts.setLocationRelativeTo(null);
 		frmChangePrompts.setResizable(false);
-//
+		//
 		comboBox = new JComboBox(pars.parserForEnvIni());
 		comboBox.setBackground(SystemColor.menu);
 		comboBox.setFont(new Font("Linux Libertine Display G", Font.BOLD, 15));
@@ -83,36 +81,45 @@ public class WindowOne {
 		frmChangePrompts.getContentPane().add(picture);
 
 		frmChangePrompts.setVisible(true);
-//buttons 
+		// buttons
 		JButton btnNext = new JButton("NEXT>");
 		btnNext.setFont(new Font("Linux Biolinum G", Font.BOLD, 14));
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				Parser p1 =  new Parser(mainProgramFolder,  listName);
-				
-				System.out.println(resources.get("version","version"));
-				
-				if(resources.get("version","version").equals(versionOfApp)){
-					
-					
-				
-				
-				
-				try {
-				//	System.out.println(p1.parserIniForIP(comboBox.getSelectedItem().toString()));
-					listOfServers  = p1.parserIniForIP(comboBox.getSelectedItem());
-					selectedItem = comboBox.getSelectedItem().toString();
-					
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				Parser p1 = new Parser(mainProgramFolder, listName);
+
+				System.out.println(resources.get("version", "version"));
+
+				if (resources.get("version", "version").equals(versionOfApp)) {
+
+					try {
+						// System.out.println(p1.parserIniForIP(comboBox.getSelectedItem().toString()));
+						listOfServers = p1.parserIniForIP(comboBox.getSelectedItem());
+						selectedItem = comboBox.getSelectedItem().toString();
+
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					frmChangePrompts.setVisible(false);
+
+					TheMostWindow most = new TheMostWindow(resources, listName, resFileName, selectedItem,
+							listOfServers, mainProgramFolder);
+					most.initialize();
 				}
-				frmChangePrompts.setVisible(false);
-				
-				TheMostWindow most = new TheMostWindow(resources,  listName,  resFileName,selectedItem, listOfServers, mainProgramFolder  );
-				most.initialize();
-			}
+
+				else {
+					String ObjButtons[] = { "Ok" };
+					int runResult = JOptionPane.showOptionDialog(null,
+							"The program version (" + versionOfApp
+									+ ") is different from the version of the resource file ("
+									+ resources.get("version", "version") + ").\n"
+									+ "Please update the program or resource file.",
+							"Information", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
+							ObjButtons, ObjButtons[0]);
+				}
+
 			}
 		});
 		btnNext.setBounds(285, 478, 91, 32);
@@ -122,20 +129,19 @@ public class WindowOne {
 		btnSettings.setFont(new Font("Linux Biolinum G", Font.BOLD, 14));
 		btnSettings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
+
 				try {
 					ResourceServerWindow RW = new ResourceServerWindow(resources, listName, resFileName,
 							mainProgramFolder);
 					RW.initialize();
 				} catch (InvalidFileFormatException e1) {
-					
+
 					e1.printStackTrace();
 				} catch (IOException e1) {
-					
+
 					e1.printStackTrace();
 				}
-				
+
 				frmChangePrompts.setVisible(false);
 			}
 		});
