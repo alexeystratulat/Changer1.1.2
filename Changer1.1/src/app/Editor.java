@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import org.apache.commons.io.FileUtils;
 import org.ini4j.Ini;
 import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Profile.Section;
@@ -150,21 +151,21 @@ System.out.println(resources.get("automated", "variable3"));
 		System.out.println("Comparing: " + pathToFile + "\\"
 				+ resources.get("path", "nameOfAlternativeConfigFile").toString() + ": " + vportal_auFile.length());
 
-		if (vportalFile.length() == vportal_stFile.length()) {
+		  try {
+			   if (FileUtils.contentEquals(vportalFile, vportal_stFile) ) {
+			    return "manual prompts";
+			   }
+			   if (FileUtils.contentEquals(vportalFile, vportal_auFile) ) {
+			    return "automated prompts";
+			   }
 
-			return "manual prompts";
+			  } catch (IOException e) {
+			   e.printStackTrace();
+			  }
+			   
+			  return "unknown";
 
-		}
-
-		if (vportalFile.length() == vportal_auFile.length()) {
-
-			return "automated prompts";
-
-		}
-
-		return "unknown";
-
-	}
+			 }
 
 	public String toShowVariables(int counter, String key) {
 		
