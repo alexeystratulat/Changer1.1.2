@@ -31,8 +31,6 @@ import java.awt.event.FocusEvent;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
-
-
 public class WindowForEditing2 {
 
 	private static JFrame frame;
@@ -55,11 +53,10 @@ public class WindowForEditing2 {
 	private JLabel lblResult;
 	private Connect sengConfigFileToServ;
 	private Servers server;
-	
 
-	public WindowForEditing2(Servers server,String pathToFile, String serverName,Ini resources, String listName, String resFileName, String selectedItem,
-			ArrayList<Servers> listOfServers, String mainProgramFolder) {
-		this.pathToFile = pathToFile;		
+	public WindowForEditing2(Servers server, String pathToFile, String serverName, Ini resources, String listName,
+			String resFileName, String selectedItem, ArrayList<Servers> listOfServers, String mainProgramFolder) {
+		this.pathToFile = pathToFile;
 		this.serverName = serverName;
 		this.resources = resources;
 		this.listName = listName;
@@ -73,38 +70,36 @@ public class WindowForEditing2 {
 
 	/**
 	 * Initialize the contents of the frame.
+	 * 
 	 * @wbp.parser.entryPoint
 	 */
-	
+
 	public void initialize() {
-		frame = new JFrame();	
+		frame = new JFrame();
 		frame.setBounds(100, 100, 800, 740);
-		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		frame.addWindowListener(new WindowAdapter() {	 
-            @Override
-            public void windowClosing(WindowEvent we) {
-            	if (btnApply.isEnabled() ) {
-	            	String ObjButtons[] = {"Save and exit","Exit without saving", "No"};         
-	                int PromptResult = JOptionPane.showOptionDialog(null,
-	                        "All unsaved changes will be lost.\n"
-	                        + "Are you want to exit?", 
-	                        "Information",
-	                        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
-	                        ObjButtons, ObjButtons[0]);
-	                if (PromptResult == 0) {
-	                	saveToFile();
-	    				System.exit(0);
-	                }
-	                if (PromptResult == 1) {
-	    				System.exit(0);
-	                }
-            	} else {
-            		System.exit(0);
-            	}
-            }
-        });	
-		frame.setTitle(selectedItem + "  "+ serverName);
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent we) {
+				if (btnApply.isEnabled()) {
+					String ObjButtons[] = { "Save and exit", "Exit without saving", "No" };
+					int PromptResult = JOptionPane.showOptionDialog(null,
+							"All unsaved changes will be lost.\n" + "Are you want to exit?", "Information",
+							JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[0]);
+					if (PromptResult == 0) {
+						saveToFile();
+						System.exit(0);
+					}
+					if (PromptResult == 1) {
+						System.exit(0);
+					}
+				} else {
+					System.exit(0);
+				}
+			}
+		});
+		frame.setTitle(selectedItem + "  " + serverName);
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);
 
@@ -125,89 +120,85 @@ public class WindowForEditing2 {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				TheMostWindow most = new TheMostWindow(resources,  listName,  resFileName,selectedItem, listOfServers, mainProgramFolder  );
+				TheMostWindow most = new TheMostWindow(resources, listName, resFileName, selectedItem, listOfServers,
+						mainProgramFolder);
 				most.initialize();
 			}
 		});
-		
+
 		frame.getContentPane().add(button);
 		btnApply = new JButton("apply");
 		btnApply.setEnabled(false);
 		btnApply.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				saveToFile();
-				
-			
-				
-				
-				
-				
-				
+
 			}
-		}); 
-		
+		});
+
 		btnApply.setBounds(662, 655, 112, 23);
 		frame.getContentPane().add(btnApply);
 		JButton btnNext = new JButton(">");
 		btnNext.setEnabled(false);
 		JButton btnPrev = new JButton("<");
 		btnPrev.setEnabled(false);
-	
+
 		search_textField = new JTextField();
 		search_textField.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
-				if (search_textField.getText().equals("Search") ) {
-					search_textField.setText("");	
+				if (search_textField.getText().equals("Search")) {
+					search_textField.setText("");
 				}
 			}
+
 			@Override
 			public void focusLost(FocusEvent e) {
-				if (search_textField.getText().equals("") ) {
-					search_textField.setText("Search");	
-				}				
+				if (search_textField.getText().equals("")) {
+					search_textField.setText("Search");
+				}
 			}
 		});
-		
+
 		search_textField.setText("Search");
 		search_textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				String search_text = search_textField.getText().toLowerCase();		
+				String search_text = search_textField.getText().toLowerCase();
 				if (search_text.length() > 0) {
 					TotalRes = 0;
 					CurrentRes = 0;
 					Rows = new int[1000];
 					int counter = 0;
 					// Start searching in text area
-					StringReader sr = new StringReader(txtrText.getText()); 
-					BufferedReader br = new BufferedReader(sr); 
-					String nextLine = ""; 		 			
+					StringReader sr = new StringReader(txtrText.getText());
+					BufferedReader br = new BufferedReader(sr);
+					String nextLine = "";
 					try {
-						while ((nextLine = br.readLine()) != null){ 									
-							if (nextLine.toLowerCase().contains(search_text) ) {			
+						while ((nextLine = br.readLine()) != null) {
+							if (nextLine.toLowerCase().contains(search_text)) {
 								Rows[TotalRes] = counter;
-								TotalRes ++;
+								TotalRes++;
 							}
 							counter++;
 						}
 					} catch (IOException e1) {
 						e1.printStackTrace();
-					}				
+					}
 					// Check result
 					if (TotalRes > 0) {
-						 btnNext.setEnabled(true);
-						 btnPrev.setEnabled(true);
-						 res_label.setText("0 / "+Integer.toString(TotalRes)); 		
+						btnNext.setEnabled(true);
+						btnPrev.setEnabled(true);
+						res_label.setText("0 / " + Integer.toString(TotalRes));
 					} else {
-						 btnNext.setEnabled(false);
-						 btnPrev.setEnabled(false);
-						 res_label.setText("0 / 0"); 
-					}	
+						btnNext.setEnabled(false);
+						btnPrev.setEnabled(false);
+						res_label.setText("0 / 0");
+					}
 				} else {
-					 btnNext.setEnabled(false);
-					 btnPrev.setEnabled(false);
-					 res_label.setText("0 / 0"); 				  
+					btnNext.setEnabled(false);
+					btnPrev.setEnabled(false);
+					res_label.setText("0 / 0");
 				}
 			}
 		});
@@ -217,26 +208,26 @@ public class WindowForEditing2 {
 		search_textField.setColumns(10);
 
 		btnNext.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {			
-				CurrentRes ++;	
-				if (CurrentRes > TotalRes){
-					CurrentRes = 1;	
+			public void actionPerformed(ActionEvent e) {
+				CurrentRes++;
+				if (CurrentRes > TotalRes) {
+					CurrentRes = 1;
 				}
 				changeSelectedText();
-			 }
+			}
 		});
-		
+
 		btnNext.setBounds(309, 657, 42, 17);
 		frame.getContentPane().add(btnNext);
 		res_label = new JLabel("0 / 0");
 		res_label.setBounds(66, 687, 55, 14);
 		frame.getContentPane().add(res_label);
-		
+
 		btnPrev.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CurrentRes --;	
-				if (CurrentRes < 1){
-					CurrentRes = TotalRes;	
+				CurrentRes--;
+				if (CurrentRes < 1) {
+					CurrentRes = TotalRes;
 				}
 				changeSelectedText();
 			}
@@ -251,56 +242,52 @@ public class WindowForEditing2 {
 	}
 
 	protected void changeSelectedText() {
-		res_label.setText(Integer.toString(CurrentRes)+" / "+Integer.toString(TotalRes)); 		
-		int current_row = Rows[CurrentRes-1];	
+		res_label.setText(Integer.toString(CurrentRes) + " / " + Integer.toString(TotalRes));
+		int current_row = Rows[CurrentRes - 1];
 		try {
 			int start_point = txtrText.getLineStartOffset(current_row);
-			int end_point = txtrText. getLineEndOffset(current_row);
+			int end_point = txtrText.getLineEndOffset(current_row);
 			// Start and End for selecting
 			txtrText.setSelectionStart(start_point);
-			txtrText.setSelectionEnd(end_point-1);
+			txtrText.setSelectionEnd(end_point - 1);
 			txtrText.requestFocus();
 		} catch (BadLocationException e1) {
 			e1.printStackTrace();
-		}		
+		}
 	}
 
 	protected void saveToFile() {
-		String content = txtrText.getText();	
 		BufferedWriter bw = null;
 		FileWriter fw = null;
 		try {
-			// PATH TO FILE
-			String path = pathToFile + "\\" + resources.get("path", "nameOfConfigFile").toString();		
+			String path = pathToFile + "\\" + resources.get("path", "nameOfConfigFile").toString();
 			fw = new FileWriter(path);
 			bw = new BufferedWriter(fw);
-			bw.write(content);
-			
-			
-			
-			
-		}  catch(Exception e1){
+			bw.write(txtrText.getText());
+
+		} catch (Exception e1) {
 			System.out.println(e1);
+
 		} finally {
 			try {
 				bw.close();
 				fw.close();
 				sengConfigFileToServ = new Connect(server, resources.get("auth", "Username"),
-				resources.get("auth", "Password"), mainProgramFolder, resources);
-
+						resources.get("auth", "Password"), mainProgramFolder, resources);
 				sengConfigFileToServ.setConfigFile();
 				btnApply.setEnabled(false);
-			} 
-			catch (IOException e1) {
-				e1.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+
 		}
 	}
 
 	private void show() {
 		FileReader reader = null;
 		try {
-			reader = new FileReader(pathToFile + "\\" + resources.get("path", "nameOfConfigFile").toString());	
+			reader = new FileReader(pathToFile + "\\" + resources.get("path", "nameOfConfigFile").toString());
 			System.out.println(pathToFile + "\\" + resources.get("path", "nameOfConfigFile").toString());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -308,9 +295,12 @@ public class WindowForEditing2 {
 		Scanner s = new Scanner(reader);
 		while (s.hasNext()) {
 			if (s.hasNextInt()) {
-				txtrText.append(s.nextLine() + "\n");
+				// txtrText.append(s.nextLine() + "\n");
+				txtrText.append(s.nextLine());
+				txtrText.append(System.getProperty("line.separator"));
 			} else {
-				txtrText.append(s.nextLine() + "\n");
+				txtrText.append(s.nextLine());
+				txtrText.append(System.getProperty("line.separator"));
 			}
 		}
 		txtrText.setCaretPosition(0);
